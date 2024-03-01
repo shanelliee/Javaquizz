@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz</title>
+<style>
+  body {
+    font-family: Monospace, sans-serif;
+    background-image: url("fly.gif");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  h2 {
+    font-size: 30px;
+    text-align: center;
+  }
+
+  #question { 
+    text-align: center;
+    font-size: 60px;
+  }
+
+  #options {
+    font-size: 60px;
+    text-align: center;
+  }
+
+  .container {
+    margin: 0 auto;
+    max-width: 500px;  
+    padding: 10px; 
+    background-image: url("fino.gif"); 
+    border-radius: 10px;
+    text-align: center; /* Center all content within the container */
+  }
+
+  .icon {
+    font-size: 60px;
+    color: red;
+  }
+
+  #score {
+    font-size: 24px;
+    margin-bottom: 20px; /* Add some space between score and next button */
+  }
+
+  #nextButton {
+    display: block; /* Make the button a block element */
+    margin: 0 auto; /* Center the button */
+    font-size: 24px; /* Set font size */
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2><font color="white" size="20"><i>Random facts!</i></font></h2>
+</div> > 
+
+<br><br><br><br><br><br><br>
+
+<div id="question"></div>
+<div id="options"></div>
+<div id="score"></div>
+<button id="nextButton" onclick="nextQuestion()">Next</button>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.0.1"></script>
+<script>
+  const quizData = [
+    {
+      question: 'What is the capital of Europe?',
+      options: ['Paris', 'Brussels', 'Rome', 'Berlin'],
+      answer: 'Brussels'
+    },
+    {
+      question: 'What is Iron man\'s Last words in Endgame?',
+      options: ['I am Inevitable, and I am iron man', 'Hey, pep', 'I am an avenger', 'I love you 3000'],
+      answer: 'I am Inevitable, and I am iron man'
+    },
+    {
+      question: 'Who wrote "Romeo and Juliet"?',
+      options: ['Charles Dickens', 'Jane Austen', 'William Shakespeare', 'Mark Twain'],
+      answer: 'William Shakespeare'
+    },
+    {
+      question: 'Who made Mona Lisa?',
+      options: ['Charles Dickens', 'Leonardo Da Vinci', 'Van Gogh', 'Johannes Vermeer'],
+      answer: 'Leonardo Da Vinci'
+    },
+    {
+      question: 'When did the boy scouts go home?',
+      options: ['February 30', 'February 9', 'February 29', 'February 19'],
+      answer: 'February 29'
+    }
+  ];
+
+  let currentQuestion = 0;
+  let score = 0;
+  const questionElement = document.getElementById('question');
+  const optionsElement = document.getElementById('options');
+  const scoreElement = document.getElementById('score');
+
+  function loadQuestion() {
+    const currentQuizData = quizData[currentQuestion];
+    questionElement.innerText = currentQuizData.question;
+    optionsElement.innerHTML = '';
+    currentQuizData.options.forEach(option => {
+      const button = document.createElement('button');
+      button.innerText = option;
+      button.onclick = () => checkAnswer(option);
+      optionsElement.appendChild(button);
+    });
+  }
+
+  function checkAnswer(answer) {
+    const currentQuizData = quizData[currentQuestion];
+    if (answer === currentQuizData.answer) {
+      alert('Correct!');
+      confetti();
+      score++;
+    } else {
+      alert('Wrong! The correct answer is ' + currentQuizData.answer);
+    }
+    updateScore();
+  }
+
+  function updateScore() {
+    scoreElement.innerText = 'Score: ' + score;
+  }
+
+  function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+      loadQuestion();
+    } else {
+      alert('Quiz Completed! Your final score is: ' + score);
+    }
+  }
+
+  loadQuestion();
+  updateScore();
+</script>
+
+</body>
+</html>
